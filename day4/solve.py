@@ -1,32 +1,31 @@
-f = open('input.txt')
+f = open('input.txt', 'r')
 
-current = []
 count = 0
+current = []
 
 for line in f.readlines():
     if line != '\n':
-        current += line.strip().split(' ')
-        print(line.strip())
+        current += list(thing.split(':')[0] for thing in line.strip().split(' '))
+    else:
+        expected = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
 
-    if line == '\n':
-        # finished current
-
-        stuffs = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
-        actual = []
-
-        for thing in current:
-            actual.append(thing.split(':')[0])
-
-        print(sorted(stuffs))
-        print(sorted(actual))
-        for stuff in stuffs:
-            if stuff not in actual:
+        for key in expected:
+            if key not in current:
                 count -= 1
-                print('invalid')
                 break
 
-        count += 1
-        print(count)
         current = []
+        count += 1
+
+
+expected = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
+
+for key in expected:
+    if key not in current:
+        count -= 1
+        break
+
+current = []
+count += 1
 
 print(count)
